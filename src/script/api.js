@@ -1,6 +1,6 @@
 const base_url = "http://api.football-data.org/v2/";
 const proxyurl = "https://mighty-refuge-91128.herokuapp.com/";
-
+var dataKlasemen;
 function getKlasemen() { 
     if ("caches" in window) {
         caches.match(base_url+'competitions').then(function(response) {
@@ -49,13 +49,14 @@ function getKlasemen() {
                 }               
             }
           const response = await fetch(proxyurl+base_url+'competitions/2019/standings',options);
-          const responseJson = await response.json();
+          const responseJson = await response.json();         
           if(responseJson.error) {
              showResponseMessage(responseJson.message);
           } else {
               $('#content').load("./src/content/klasemen.html", function (response, status, request) {
               this; // dom element
             var posisi = responseJson.standings[0].table;
+            dataKlasemen = posisi;
             var tim ="";
             posisi.forEach(element => {    
                 const {position,draw,won, points, lost,playedGames,goalsFor,goalDifference,goalsAgainst} = element;
@@ -89,6 +90,7 @@ function getKlasemen() {
         }
     }
     klasemen();
+  
 }
 
 function getTopskor() {
@@ -317,4 +319,39 @@ function getTeam() {
       }
   }
   tim();
+}
+
+function tesSave() {
+ 
+  simpanKlasemen(dataKlasemen);
+}
+
+
+function getSavedKlasemen() {
+  getAll().then(function(standings) {
+    console.log(standings);
+    $('#content').load("./src/content/saved.html", function (response, status, request) {
+      this; // dom element
+      var tim ="";   
+    standings.forEach(element => {
+      const {position,draw,won, points, lost,playedGames,goalsFor,goalDifference,goalsAgainst} = element;
+      const team = element.team;
+      const {name,crestUrl} = team;            
+      tim +=(`
+      <tr>
+     <td>${position}</td>
+     <td>${name} <img src="${crestUrl}" alt=""></td>
+     <td>${playedGames}</td>
+     <td>${won}</td>
+     <td>${draw}</td>
+     <td>${lost}</td>
+     <td>${goalDifference}</td>
+     <td>${points}</td>
+   </tr>
+     `);
+    });
+    $('#klasemen').html(tim);
+
+  });
+});
 }

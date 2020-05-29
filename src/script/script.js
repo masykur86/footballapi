@@ -16,7 +16,6 @@ $(document).ready(function(){
 
   $('.tim').click(function (e) { 
     e.preventDefault();
-    alert("menu tim");
     getTeam();
   });
 
@@ -29,12 +28,13 @@ $(document).ready(function(){
 
   $('.saved').click(function (e) { 
     e.preventDefault();
-    alert("menu saved");
-    getKlasemen();
+    getSavedKlasemen();
   });
 
 
-  getTopskor();
+  getKlasemen();
+
+
 });
 
 

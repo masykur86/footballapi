@@ -1,25 +1,37 @@
 var dbPromised = idb.open("serieAdb", 1, function(upgradeDb) {
   var klasemenObjectStore = upgradeDb.createObjectStore("klasemen", {
-    keyPath: "ID"
+    keyPath: "position"
+
   });
-  klasemenObjectStore.createIndex("klasemen", "klasemen", { unique: false });
+  klasemenObjectStore.createIndex("position", "position", { unique: false });
 });
 
-function simpanKlasemen() {
-  dbPromise.then(function(db) {
-    var tx = db.transaction('buku', 'readwrite');
-    var store = tx.objectStore('buku');
-    var item = {
-        judul: 'Menjadi Android Developer Expert (MADE)',
-        isbn: 123456789,
-        description: 'Belajar pemrograman Android di Dicoding dengan modul online dan buku.',
-        created: new Date().getTime()
-    };
-    store.add(item, 123456789); //menambahkan key "buku"
-    return tx.complete;
-}).then(function() {
-    console.log('Buku berhasil disimpan.');
-}).catch(function() {
-    console.log('Buku gagal disimpan.')
-})
+
+function simpanKlasemen(standings) {
+  dbPromised
+    .then(function(db) {
+      var tx = db.transaction("klasemen", "readwrite");
+           standings.forEach(element => {       
+        var store = tx.objectStore("klasemen");   
+        store.add(element);
+      });    
+      return tx.complete;
+    })
+    .then(function() {
+      console.log("Klasemen Disimpan");
+    }).catch(alert("Data Sudah Tersimpan"));
+}
+
+function getAll() {
+  return new Promise(function(resolve, reject) {
+    dbPromised
+      .then(function(db) {
+        var tx = db.transaction("klasemen", "readonly");
+        var store = tx.objectStore("klasemen");
+        return store.getAll();
+      })
+      .then(function(standings) {
+        resolve(standings);
+      });
+  });
 }
