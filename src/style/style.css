@@ -1,0 +1,23 @@
+.card-image img{
+  height:200px;
+  width:100%;
+}
+
+body {
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
+}
+
+main {
+  flex: 1 0 auto;
+}
+
+td{
+    padding: 0;
+
+}
+
+td img{
+  height: 10px;
+}

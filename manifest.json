@@ -1,0 +1,16 @@
+{
+  "name": "Serie A Italia Updates",
+  "short_name": "Serie A",
+  "description": "Aplikasi Tentang Kompetisi Serie A italia",
+  "start_url": "/index.html",
+  "display": "standalone",
+  "background_color": "#0288d1",
+  "theme_color": "#0288d1",
+  "icons": [
+      {
+            "src": "/src/img/splash.png",
+"sizes": "512x512",
+          "type": "image/png"
+      }
+  ]
+}
