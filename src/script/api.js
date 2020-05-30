@@ -1,6 +1,8 @@
 const base_url = "http://api.football-data.org/v2/";
 const proxyurl = "https://mighty-refuge-91128.herokuapp.com/";
 var dataKlasemen;
+url = url.replace("http://","https://")
+
 function getKlasemen() { 
     if ("caches" in window) {
         caches.match(base_url+'competitions').then(function(response) {
